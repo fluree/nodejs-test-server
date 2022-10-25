@@ -1,7 +1,5 @@
 const express = require('express');
-const { newLedger, stage } = require('./routers');
 const flureenjs = require('@fluree/flureenjs');
-const { connect, ipfsConnOptions } = require('./lib/connect');
 
 const app = express();
 app.use(express.json());
@@ -60,11 +58,6 @@ flureeConnect().then((conn) => {
       console.dir(loadedLedger);
       const stage = await flureenjs.jldStage(loadedLedger, body);
       console.dir(stage);
-      //   const queryResult = await flureenjs.jldQuery(stage, {
-      //     select: ['*'],
-      //     from: 'https://www.wikidata.org/wiki/Q836821',
-      //   });
-      //   debugger;
       const result = await flureenjs.jldCommit(stage);
       ledgers[address] = loadedLedger;
       res.status(200).json(result?.stats?.arr);
