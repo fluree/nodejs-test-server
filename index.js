@@ -1,10 +1,10 @@
 const express = require("express");
-const { newLedger, stage } = require("./routers");
+const { newLedger, transact } = require("./routers");
 
 const app = express();
 app.use(express.json());
 app.use("/new", newLedger);
-app.use("/stage", stage);
+app.use("/transact", transact);
 
 const port = 2525;
 
