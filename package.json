@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/fluree/nodejs-test-server#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "@fluree/flureenjs": "file:./flureenjs"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
