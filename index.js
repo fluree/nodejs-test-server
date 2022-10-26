@@ -8,6 +8,18 @@ const port = 2525;
 
 var njsConnections = [];
 
+const resultReducer = (array) =>
+  array.reduce((prev, curr, i) => {
+    if (i % 2 === 0) {
+      let value = array[i + 1];
+      if (value?.arr) {
+        value = resultReducer(value.arr);
+      }
+      prev[curr?.name || curr] = value;
+    }
+    return prev;
+  }, {});
+
 const flureeConnect = () =>
   flureenjs
     .jldConnect({
@@ -59,8 +71,10 @@ flureeConnect().then((conn) => {
       const stage = await flureenjs.jldStage(loadedLedger, body);
       console.dir(stage);
       const result = await flureenjs.jldCommit(stage);
+      const resultArray = result?.commit?.arr;
+      const reducedResult = resultReducer(resultArray);
       ledgers[address] = loadedLedger;
-      res.status(200).json(result?.stats?.arr);
+      res.status(200).json(reducedResult);
     } catch (error) {
       debugger;
       console.error(error);
