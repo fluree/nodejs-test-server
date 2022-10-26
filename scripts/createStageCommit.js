@@ -1,4 +1,4 @@
-const { connect, ipfsConnOptions } = require("../lib/connect");
+const { connect, fileConnOptions } = require("../lib/connect");
 
 const testJson = {
   "@context": "https://schema.org",
@@ -41,8 +41,8 @@ const testJson4 = {
 const activate = async () => {
   try {
     // console.log(conn);
-    const conn = await connect(ipfsConnOptions);
-    const ledgerName = "jld/one";
+    const conn = await connect(fileConnOptions);
+    const ledgerName = "jld/two";
     const newLedger = await flureenjs.jldCreate(conn, ledgerName);
     // console.log("NEW LEDGER", newLedger);
     const staged = await flureenjs.jldStage(newLedger, testJson);
@@ -51,7 +51,7 @@ const activate = async () => {
     const staged4 = await flureenjs.jldStage(staged3, testJson4);
     // console.dir(staged, {depth: 5});
     const db = await flureenjs.jldDb(newLedger);
-    const bug = await flureenjs.jldCommit(db);
+    const bug = await flureenjs.jldCommit(staged4);
     console.log("whoop", bug);
     const query = {
       from: "https://www.wikidata.org/wiki/Q836821",
